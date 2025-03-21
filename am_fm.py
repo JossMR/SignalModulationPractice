@@ -65,7 +65,7 @@ def modularFm(audio, time, sampleRate, carrierFrequency):
     normalizedAudio = audio / np.max(np.abs(audio))
     
     # FM modulation parameters
-    frequencyDeviation = 5000  # Hz
+    frequencyDeviation = 300  # Hz
     
     # Integrate the signal to accumulate the phase shift
     sensitivity = 2 * np.pi * frequencyDeviation / sampleRate
@@ -133,7 +133,7 @@ if len(audio) / sampleRate > maxDuration:
     time = time[:int(maxDuration * sampleRate)]
 
 # 2. Define the carrier wave
-carrierFrequency = 10  # 5 kHz
+carrierFrequency = 5  
 carrier = createCarrier(time, carrierFrequency)
 
 # 3. Implement AM modulation
