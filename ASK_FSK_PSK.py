@@ -76,9 +76,9 @@ def plot_signals(binary, bit_time, t, ask_signal, fsk_signal, psk_signal):
 
 message = "Hello World"
 bit_time = 0.01
-frequency = 5000  # 5 kHz standard frequency
-f0 = 2000  # 2 kHz low frequency for FSK
-f1 = 5000  # 5 kHz high frequency for FSK
+frequency = 5000
+f0 = 2000
+f1 = 5000
 
 # Generate binary data
 binary = generate_binary_data(message)

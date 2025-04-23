@@ -12,17 +12,15 @@ def loadAudio(soundWav):
         # Read with librosa
         audio, sampleRate = librosa.load(soundWav, sr=None, mono=False)
     except:
-        # if fails, try with scipy
         sampleRate, audio = wavfile.read(soundWav)
-        # Normalize int16/int32
         if audio.dtype == np.int16:
             audio = audio / 32768.0
         elif audio.dtype == np.int32:
             audio = audio / 2147483648.0
     
     # Convert stereo to mono
-    if len(audio.shape) > 1:  # there is more tha one chanel
-        audio = np.mean(audio, axis=0)  # Averaging channels to convert to mono
+    if len(audio.shape) > 1:
+        audio = np.mean(audio, axis=0)
     
     # Normalize audio after conversion
     audio = audio / np.max(np.abs(audio))
@@ -48,7 +46,6 @@ def modularAm(audio, carrier, time):
     # Normalize the audio signal
     normalizedAudio = audio / np.max(np.abs(audio))
     
-    # modulation factor (between 0 y 1)
     factorMod = 0.8
     
     # Add an offset to prevent the signal from being inverted
@@ -67,7 +64,6 @@ def modularFm(audio, time, sampleRate, carrierFrequency):
     # FM modulation parameters
     frequencyDeviation = 300  # Hz
     
-    # Integrate the signal to accumulate the phase shift
     sensitivity = 2 * np.pi * frequencyDeviation / sampleRate
     cumulativePhase = np.cumsum(normalizedAudio) * sensitivity
     
@@ -133,7 +129,7 @@ if len(audio) / sampleRate > maxDuration:
     time = time[:int(maxDuration * sampleRate)]
 
 # 2. Define the carrier wave
-carrierFrequency = 5  
+carrierFrequency = 5
 carrier = createCarrier(time, carrierFrequency)
 
 # 3. Implement AM modulation
@@ -142,7 +138,6 @@ amSignal, normalizedAudio = modularAm(audio, carrier, time)
 # 4. Implement FM modulation
 fmSignal = modularFm(audio, time, sampleRate, carrierFrequency)
 
-# View all signals in one view
 visualizeSignals(normalizedAudio, amSignal, fmSignal, time, sampleRate)
 
 # Options to play audio
